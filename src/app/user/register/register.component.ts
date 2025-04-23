@@ -1,36 +1,68 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common'; 
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FirstKeyPipe } from '../../shared/pipes/first-key.pipe';
 import { AuthserviceService } from '../../shared/services/authservice.service';
 import { ToastrService } from 'ngx-toastr';
+import { HttpHeaders } from '@angular/common/http';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule,RouterModule,CommonModule,FirstKeyPipe],
+  standalone: true,
+  imports: [ReactiveFormsModule, RouterModule, CommonModule, FirstKeyPipe],
   templateUrl: './register.component.html',
   styles: ``
 })
-export class RegisterComponent {
-  form :FormGroup;
-  isSubmitted :boolean= false;
-  constructor(public formBuilder: FormBuilder,private service : AuthserviceService,private toastr: ToastrService) {
-    this.form = this.formBuilder.group({
-      name: ['',Validators.required],
-      email : ['',[Validators.required, Validators.email]],
-      password: ['',[Validators.required,Validators.minLength(6),Validators.pattern(/(?=.*[^a-zA-Z0-9 ])/)]],
-      department: ['',Validators.required],
-      
-    })
-  }
-  onSubmitRegister(){
-    this.isSubmitted = true;
-    if(this.form.valid){
-      this.service.createEmployee(this.form.value).subscribe({
-        next :(res : any) =>{
+export class RegisterComponent implements OnInit {
+  form: FormGroup;
+  isSubmitted: boolean = false;
+  headers: HttpHeaders | undefined;
 
-          if(res.succeeded){
+  constructor(
+    public formBuilder: FormBuilder,
+    private service: AuthserviceService,
+    private toastr: ToastrService,
+    private router: Router
+  ) {
+    this.form = this.formBuilder.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6), Validators.pattern(/(?=.*[^a-zA-Z0-9 ])/)]],
+      department: ['', Validators.required],
+    });
+  }
+
+  ngOnInit(): void {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    try {
+      const decoded: any = jwtDecode(token);
+      const role = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+
+      if (role !== 'Admin') {
+        this.router.navigate(['/unauthorized']); // or dashboard/employee
+        return;
+      }
+
+      this.headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    } catch (err) {
+      localStorage.removeItem('token');
+      this.router.navigate(['/login']);
+    }
+  }
+
+  onSubmitRegister() {
+    this.isSubmitted = true;
+    if (this.form.valid && this.headers) {
+      this.service.createEmployee(this.form.value, { headers: this.headers }).subscribe({
+        next: (res: any) => {
+          if (res) {
             this.form.reset();
             this.isSubmitted = false;
             this.toastr.success('New Employee created!', 'Registration Successful');
@@ -58,15 +90,10 @@ export class RegisterComponent {
         }
       });
     }
-    // console.log(this.form.value);
   }
 
   hasDisplayableError(controlName: string): boolean {
     const control = this.form.get(controlName);
-    return !!(
-      control?.invalid &&
-      (this.isSubmitted || control.touched || control.dirty)
-    );
+    return !!(control?.invalid && (this.isSubmitted || control.touched || control.dirty));
   }
-
 }

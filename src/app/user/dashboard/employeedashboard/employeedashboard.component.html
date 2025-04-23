@@ -1,1 +1,61 @@
-<p>employeedashboard works!</p>
+<!-- Top Navbar (for small screens) -->
+<nav class="navbar navbar-light bg-light d-md-none">
+    <button class="navbar-toggler" type="button" (click)="toggleSidebar()">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </nav>
+ 
+  <!-- Sidebar -->
+  <div
+    class="bg-light p-1 flex-shrink-0"
+    [ngClass]="{
+      'd-none': !showSidebar && isSmallScreen,
+      'd-flex flex-column': showSidebar || !isSmallScreen
+    }"
+    style="width: 175px; height: 100vh; position: fixed; z-index: 1030; overflow-y: auto;"
+  >
+    <div class="text-center">
+      <h4 class="my-2">Employee Panel</h4>
+      <hr />
+    </div>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item">
+        <a
+          routerLink="/dashboard/employee/my-report"
+          routerLinkActive="bg-dark text-white"
+          class="nav-link text-dark"
+          [routerLinkActiveOptions]="{ exact: true }"
+          (click)="onNavItemClick()"
+        >
+          <i class="bi bi-file-earmark-text"></i> Reports
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          routerLink="/dashboard/employee/scan-qr"
+          routerLinkActive="bg-dark text-white"
+          class="nav-link text-dark"
+          [routerLinkActiveOptions]="{ exact: true }"
+          (click)="onNavItemClick()"
+        >
+          <i class="bi bi-upc-scan"></i> Scan QR
+        </a>
+      </li>
+      <hr>
+      <div class="text-center">
+        <a routerLink="/logout" class="btn btn-danger w-100">Logout</a>
+      </div>
+    </ul>
+  </div>
+  
+  <!-- Main Content -->
+  <div
+    class="flex-grow-1"
+    [ngClass]="{
+      'ms-0': isSmallScreen,
+      'ms-md-175px': !isSmallScreen
+    }"
+    style="padding: 2px; height: 100vh; overflow: auto; margin-left: 200px; "
+  >
+    <router-outlet></router-outlet>
+  </div>

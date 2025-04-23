@@ -1,0 +1,33 @@
+<div class="container mt-3">
+    <h3>Employee Attendance Report</h3>
+    <table class="table table-bordered table-hover mt-3" *ngIf="attendances.length > 0">
+      <thead class="table-light">
+        <tr>
+          <th>Employee Name</th>
+          <th>Email</th>
+          <th>QR Code Text</th>
+          <th>QR Code Date/Time</th>
+          <th>Check-in Time</th>
+          <th>Check-out Time</th>
+          <th>Total Hours</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let attendance of attendances">
+          <td>{{ attendance.employeeName }}</td>
+          <td>{{ attendance.email }}</td>
+          <td>{{ attendance.qrCodeText | truncate:10 }}</td>
+
+          <td>{{ attendance.qrCodeGenerateDateAndTime | date:'short' }}</td>
+          <td>{{ attendance.checkIn | date:'shortTime' }}</td>
+          <td>{{ attendance.checkOut ? (attendance.checkOut | date:'shortTime') : 'N/A' }}</td>
+          <td>{{ attendance.totalHours | millisecondsToMinutes }}</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div *ngIf="attendances.length === 0" class="alert alert-info">
+      No attendance records found.
+    </div>
+  </div>
+  

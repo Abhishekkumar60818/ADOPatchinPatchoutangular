@@ -1,9 +1,10 @@
-<div class="form-side">
+<div class="col-12 col-lg-4 col-xl-4 col-xxl-3 m-auto">
+  <div class="form-side">
     <form [formGroup]="form" (ngSubmit)="onSubmitRegister()">
       <div class="form-group text-center">
         <h3>Only Admin - Register</h3>
       </div>
-  
+
       <!-- Row for Name and Department -->
       <div class="row">
         <!-- Name Field -->
@@ -14,37 +15,40 @@
             <small class="text-danger">Name is required</small>
           </div>
         </div>
-  
+
         <!-- Department Field -->
         <div class="form-group col-md-6">
           <label class="form-label fw-semibold">Department</label>
           <input placeholder="Department" formControlName="department" class="form-control form-control-sm" required />
-          <div class="error-feedback" *ngIf="hasDisplayableError('department') && form.controls['department'].hasError('required')">
+          <div class="error-feedback"
+            *ngIf="hasDisplayableError('department') && form.controls['department'].hasError('required')">
             <small class="text-danger">Department is required</small>
           </div>
         </div>
       </div>
-  
+
       <!-- Row for Email and Password -->
       <div class="row">
         <!-- Email Field -->
         <div class="form-group col-md-6">
           <label class="form-label fw-semibold">Email</label>
           <input placeholder="Email" formControlName="email" class="form-control form-control-sm" required />
-          <div class="error-feedback" *ngIf="hasDisplayableError('email') && form.controls['email'].hasError('required')">
+          <div class="error-feedback"
+            *ngIf="hasDisplayableError('email') && form.controls['email'].hasError('required')">
             <small class="text-danger">Email is required</small>
           </div>
-          
+
           <div *ngIf="form.controls['email'].hasError('email')">
             Please enter a valid email address.
           </div>
         </div>
-  
+
         <!-- Password Field -->
         <div class="form-group col-md-6">
           <label class="form-label fw-semibold">Password</label>
-          <input placeholder="Password" formControlName="password" type="password" class="form-control form-control-sm" required />
-          <div class="error-feedback" *ngIf="hasDisplayableError('password')">
+          <input placeholder="Password" formControlName="password" type="password" class="form-control form-control-sm"
+            required />
+          <div class="text-danger small" *ngIf="hasDisplayableError('password')">
             <ng-container [ngSwitch]="form.controls['password'].errors | firstKey">
               <div *ngSwitchCase="'required'">
                 Please enter your password.
@@ -59,13 +63,13 @@
           </div>
         </div>
       </div>
-  
+
       <!-- Submit Button -->
       <div class="d-flex justify-content-center mt-3">
         <button type="submit" class="login_btn text-center">Register</button>
       </div>
     </form>
-  
+
     <!-- Already have an account -->
     <div class="text-center mt-3">
       <p class="text-center">
@@ -73,4 +77,4 @@
       </p>
     </div>
   </div>
-  
+</div>

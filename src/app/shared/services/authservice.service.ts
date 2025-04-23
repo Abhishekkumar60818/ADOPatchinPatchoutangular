@@ -7,10 +7,11 @@ import { Injectable } from '@angular/core';
 export class AuthserviceService {
 
   constructor(private http:HttpClient) { }
-  baseUrl ='https://localhost:7140/api/Account';
-  createEmployee(formData : any ){
-    return this.http.post(this.baseUrl + '/Register',formData);
+  baseUrl ='http://192.168.29.15:5191/api/Account';
+  createEmployee(formData: any, options?: any) {
+    return this.http.post(this.baseUrl + '/Register', formData, options);
   }
+  
   LoginEmployee(formData :any){
 return this.http.post(this.baseUrl + '/Login',formData);
   }

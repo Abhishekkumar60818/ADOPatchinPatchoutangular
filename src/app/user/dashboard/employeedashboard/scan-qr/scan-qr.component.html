@@ -1,0 +1,13 @@
+<div class="container text-center mt-4">
+    <h2>Scan QR Code</h2>
+    <p>Click the button below to open the camera and scan the QR Code.</p>
+  
+    <button id="scanBtn" class="btn btn-primary" (click)="startScan()">Scan QR Code</button>
+    <button id="closeBtn" class="btn btn-danger d-none" (click)="stopCamera()">Close Camera</button>
+  
+    <video #video id="video" class="d-none" width="100%" autoplay></video>
+    <canvas #canvas id="canvas" class="d-none"></canvas>
+  
+    <div id="result" class="mt-3">{{ resultMessage }}</div>
+  </div>
+  
