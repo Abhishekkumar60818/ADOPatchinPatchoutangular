@@ -30,7 +30,7 @@ export class EmployeeReportComponent implements OnInit {
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    this.http.get<any[]>('http://192.168.29.15:5191/api/Admin/GetAllEmployeeAttendences', { headers })
+    this.http.get<any[]>('https://192.168.29.15:5191/api/Admin/GetAllEmployeeAttendences', { headers })
       .subscribe({
         next: (data) => {
           this.attendances = data;

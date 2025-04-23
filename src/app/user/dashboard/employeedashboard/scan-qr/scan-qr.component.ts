@@ -90,7 +90,7 @@ export class ScanQrComponent {
   }
 
   sendQRCodeToServer(scannedQRCode: string): void {
-    const apiUrl = 'http://192.168.29.15:5191/api/Employees/scan-qr';
+    const apiUrl = 'https://192.168.29.15:5191/api/Employees/scan-qr';
     const token = localStorage.getItem('token');
   
     if (!token) {

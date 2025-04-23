@@ -29,12 +29,12 @@ export class GenerateQrComponent {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     this.isLoading = true;
 
-    this.http.post<any>('http://192.168.29.15:5191/api/Admin/GenerateQRCode', {}, { headers })
+    this.http.post<any>('https://192.168.29.15:5191/api/Admin/GenerateQRCode', {}, { headers })
       .subscribe({
         next: (data) => {
           this.message = data.message;
           this.qrCodeBase64 = data.qrCode;
-          console.log('QR Code generated successfully:', this.qrCodeBase64);
+          
           this.isLoading = false;
         },
         error: (error) => {

@@ -23,7 +23,7 @@ fetchAllEmployees(): void {
     return;
   }
   const headers =new HttpHeaders().set('Authorization', `Bearer ${token}`);
-  this.http.get<any[]>('http://192.168.29.15:5191/api/Admin/ShowAllEmployees', { headers })
+  this.http.get<any[]>('https://192.168.29.15:5191/api/Admin/ShowAllEmployees', { headers })
   .subscribe({
     next: (data) =>{
     

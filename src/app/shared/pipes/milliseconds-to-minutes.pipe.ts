@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class MillisecondsToMinutesPipe implements PipeTransform {
 
   transform(value: string | null | undefined): string {
-    console.log('Value:', value);
+   
 
     if (!value) return 'N/A';
 
